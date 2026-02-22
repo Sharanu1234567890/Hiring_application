@@ -1,384 +1,374 @@
-Hiring Application – Spring Boot Microservices Architecture
+# 🚀 Hiring Application – Production-Grade Microservices Platform
 
-A production-grade Spring Boot Microservices Hiring Platform built with modern backend engineering principles including resilience patterns, event-driven architecture, caching strategy, monitoring, and CI/CD automation.
+A scalable, resilient, and production-ready **Hiring Platform** built using Spring Boot Microservices architecture.
 
-This project demonstrates scalable, secure, and fault-tolerant distributed system design suitable for enterprise-level applications.
+This project demonstrates real-world distributed system design including:
 
- Architecture Overview
+- Microservices Architecture
+- Event-Driven Communication
+- Circuit Breaker & Retry Mechanisms
+- Outbox Pattern for Reliable Messaging
+- Distributed Caching with Redis
+- Observability & Monitoring
+- CI/CD Automation
+- Containerized Deployment
 
-The system follows a microservices architecture pattern with the following components:
+---
 
-Config Server – Centralized configuration management
+# 📌 Table of Contents
 
-Eureka Server – Service discovery
+- Overview
+- Architecture
+- Services
+- Engineering Features
+- Technology Stack
+- Security
+- Event-Driven Design
+- Caching Strategy
+- Monitoring & Observability
+- CI/CD Pipeline
+- API Documentation
+- How to Run
+- Scalability Approach
+- Testing Strategy
+- Future Improvements
 
-API Gateway – Routing, filtering, authentication
+---
 
-Auth Service – Authentication & JWT authorization
+# 🏗 Overview
 
-User Service – User management
+The Hiring Application is a distributed backend system that allows:
 
-Job Service – Categories, Jobs, Adverts, Offers
+- User registration and authentication
+- Job category management
+- Job creation and search
+- Advert posting
+- Offer submission
+- Notification handling
+- File upload and download
 
-Notification Service – Event-driven notifications
+The system follows modern backend engineering standards suitable for large-scale applications.
 
-File Storage Service – Image/file upload and download
+---
 
-Redis – Distributed caching
+# 🏛 Architecture
 
-Kafka – Event streaming
+Client  
+→ API Gateway  
+→ Microservices  
+→ PostgreSQL  
+→ Kafka  
+→ Redis  
+→ Monitoring Stack  
 
-Prometheus + Grafana – Monitoring & observability
+## Core Components
 
-Resilience4j – Circuit breaker & retry mechanism
+- Config Server – Centralized configuration management
+- Eureka Server – Service discovery
+- API Gateway – Routing & request filtering
+- Auth Service – JWT authentication & authorization
+- User Service – User management
+- Job Service – Categories, Jobs, Adverts, Offers
+- Notification Service – Event-driven notifications
+- File Storage Service – File handling
+- Redis – Caching layer
+- Kafka – Asynchronous messaging
+- Prometheus – Metrics collection
+- Grafana – Monitoring dashboards
 
-Docker – Containerization
+---
 
-GitHub Actions – CI/CD pipeline
+# 🔥 Engineering Features
 
-🏗 High-Level Architecture
+## 1️⃣ Circuit Breaker & Retry
 
-Client → API Gateway → Microservices
-↓
-Eureka (Service Discovery)
-Config Server (Centralized Config)
-Kafka (Event Streaming)
-Redis (Caching)
-PostgreSQL (Database)
-Prometheus (Metrics)
-Grafana (Dashboards)
+- Prevents cascading failures
+- Provides fallback mechanisms
+- Configurable retry strategy
+- Applied to inter-service communication
 
- Key Engineering Features
-1️⃣ Circuit Breaker & Retry (Resilience4j)
+Improves system reliability and fault tolerance.
 
-Prevents cascading failures between services
+---
 
-Automatic fallback methods
+## 2️⃣ Outbox Pattern
 
-Configurable retry with exponential backoff
+Solves the dual-write problem in distributed systems.
 
-Applied between:
+Implementation:
 
-Job Service → Notification Service
-
-Gateway → Downstream services
-
-2️⃣ Outbox Pattern (Reliable Event Publishing)
-
-To solve the Dual Write Problem:
-
-Domain data and event are saved in the same database transaction
-
-Events are stored in an outbox table
-
-Background scheduler publishes events to Kafka
-
-Events marked as processed after successful publish
+- Domain entity + event saved in same DB transaction
+- Event stored in `outbox` table
+- Background scheduler publishes event to Kafka
+- Event marked as processed after successful publish
 
 Ensures:
+- No message loss
+- Eventual consistency
+- Reliable event delivery
 
-No lost messages
+---
 
-Exactly-once processing
+## 3️⃣ Event-Driven Architecture
 
-Eventual consistency
+Kafka events published for:
 
-3️⃣ Redis Caching Strategy
+- Advert Created
+- Offer Created
+- Job Updated
 
-Implements Cache-Aside Pattern
-
-Cached Endpoints:
-
-Get all jobs
-
-Get categories
-
-Job search queries
-
-Features:
-
-TTL based eviction
-
-@Cacheable and @CacheEvict
-
-Cache invalidation on updates
-
-Reduced DB load
-
-Improved performance
-
-4️⃣ Monitoring & Observability
-
-Integrated with:
-
-Spring Boot Actuator
-
-Prometheus
-
-Grafana
-
-Monitored Metrics:
-
-Request count
-
-Error rate
-
-Latency
-
-JVM memory usage
-
-Kafka metrics
-
-Access dashboards through Grafana UI after Docker startup.
-
-5️⃣ CI/CD Pipeline (GitHub Actions)
-
-Automated pipeline includes:
-
-Code checkout
-
-Maven build
-
-Unit tests execution
-
-Docker image build
-
-Push to Docker Hub
-
-Runs on:
-
-Pull requests
-
-Push to main branch
-
-🛠 Technology Stack
-Backend
-
-Java 17
-
-Spring Boot
-
-Spring Security
-
-JWT Authentication
-
-Spring Cloud Gateway
-
-Spring Cloud Config
-
-Eureka Service Discovery
-
-Database
-
-PostgreSQL
-
-Spring Data JPA
-
-Messaging
-
-Kafka
-
-Caching
-
-Redis
-
-Resilience
-
-Resilience4j
-
-Monitoring
-
-Prometheus
-
-Grafana
-
-DevOps
-
-Docker & Docker Compose
-
-GitHub Actions
-
-🔐 Authentication & Authorization
-
-JWT-based authentication
-
-Role-based access control (ADMIN / USER)
-
-Method-level security
-
-Secure endpoints through API Gateway
-
-📡 Event-Driven Architecture
-
-Events Published:
-
-Advert Created
-
-Offer Created
-
-Job Updated
-
-Notification Service consumes Kafka events asynchronously.
+Notification Service consumes events asynchronously.
 
 Benefits:
 
-Loose coupling
+- Loose coupling
+- Scalability
+- Failure isolation
+- Improved responsiveness
 
-Improved scalability
+---
 
-Better failure isolation
+## 4️⃣ Redis Caching Strategy
 
-Eventual consistency
+Implements Cache-Aside Pattern.
 
-📂 REST API Endpoints
-Authentication
+Cached Endpoints:
 
-POST /v1/auth/register
-POST /v1/auth/login
+- Get all jobs
+- Get categories
+- Job search queries
 
-User Management
+Features:
 
-GET /v1/user/getAll
-GET /v1/user/getUserById/{id}
-PUT /v1/user/update
-DELETE /v1/user/deleteUserById/{id}
+- TTL-based eviction
+- Cache invalidation on updates
+- Reduced DB load
+- Faster read operations
 
-Job Service
-Category
+---
 
-POST /v1/job-service/category/create
-GET /v1/job-service/category/getAll
-PUT /v1/job-service/category/update
-DELETE /v1/job-service/category/deleteCategoryById/{id}
+## 5️⃣ Monitoring & Observability
 
-Job
+Integrated with:
 
-POST /v1/job-service/job/create
-GET /v1/job-service/job/getAll
-PUT /v1/job-service/job/update
-DELETE /v1/job-service/job/deleteJobById/{id}
+- Spring Boot Actuator
+- Prometheus
+- Grafana
 
-Advert
+Monitored Metrics:
 
-POST /v1/job-service/advert/create
-GET /v1/job-service/advert/getAll
-PUT /v1/job-service/advert/update
-DELETE /v1/job-service/advert/deleteAdvertById/{id}
+- Request count
+- Error rate
+- Latency
+- JVM memory usage
+- Service health
 
-Offer
+Provides production-level visibility into system behavior.
 
-POST /v1/job-service/offer/makeAnOffer
-GET /v1/job-service/offer/getOfferById/{id}
-PUT /v1/job-service/offer/update
-DELETE /v1/job-service/offer/deleteOfferById/{id}
+---
 
-Notification
+## 6️⃣ CI/CD Pipeline
 
-GET /v1/notification/getAllByUserId/{id}
+Automated using GitHub Actions.
 
-File Storage
+Pipeline Steps:
 
-GET /v1/file-storage/download/{id}
+1. Checkout code
+2. Build project
+3. Run unit tests
+4. Build Docker image
+5. Push to Docker registry
 
-🐳 Running the Application
-1️⃣ Clone Repository
-git clone https://github.com/your-username/hiring_application.git
-cd hiring_application
-2️⃣ Start Infrastructure
-docker compose up
+Triggers on:
+- Pull Requests
+- Push to main branch
+
+---
+
+# 🛠 Technology Stack
+
+## Backend
+- Java 17
+- Spring Boot
+- Spring Security
+- JWT
+- Spring Cloud Gateway
+- Spring Cloud Config
+- Eureka
+- Spring Data JPA
+
+## Database
+- PostgreSQL
+
+## Messaging
+- Kafka
+
+## Caching
+- Redis
+
+## Resilience
+- Resilience4j
+
+## Monitoring
+- Prometheus
+- Grafana
+
+## DevOps
+- Docker
+- Docker Compose
+- GitHub Actions
+
+---
+
+# 🔐 Security
+
+- JWT-based authentication
+- Role-based access control (ADMIN / USER)
+- Method-level authorization
+- Gateway-level request filtering
+- Secure endpoint protection
+
+---
+
+# 📡 API Overview
+
+## Authentication
+
+POST `/v1/auth/register`  
+POST `/v1/auth/login`
+
+## User
+
+GET `/v1/user/getAll`  
+GET `/v1/user/getUserById/{id}`  
+PUT `/v1/user/update`  
+DELETE `/v1/user/deleteUserById/{id}`  
+
+## Job Service
+
+### Category
+POST `/v1/job-service/category/create`  
+GET `/v1/job-service/category/getAll`  
+PUT `/v1/job-service/category/update`  
+DELETE `/v1/job-service/category/deleteCategoryById/{id}`  
+
+### Job
+POST `/v1/job-service/job/create`  
+GET `/v1/job-service/job/getAll`  
+PUT `/v1/job-service/job/update`  
+DELETE `/v1/job-service/job/deleteJobById/{id}`  
+
+### Advert
+POST `/v1/job-service/advert/create`  
+GET `/v1/job-service/advert/getAll`  
+PUT `/v1/job-service/advert/update`  
+DELETE `/v1/job-service/advert/deleteAdvertById/{id}`  
+
+### Offer
+POST `/v1/job-service/offer/makeAnOffer`  
+GET `/v1/job-service/offer/getOfferById/{id}`  
+PUT `/v1/job-service/offer/update`  
+DELETE `/v1/job-service/offer/deleteOfferById/{id}`  
+
+## Notification
+
+GET `/v1/notification/getAllByUserId/{id}`  
+
+## File Storage
+
+GET `/v1/file-storage/download/{id}`  
+
+---
+
+# 🐳 How to Run
+
+## 1️⃣ Clone Repository
+
+
+
+
+
+
+
 
 This starts:
 
-PostgreSQL
+- PostgreSQL
+- Kafka
+- Redis
+- Prometheus
+- Grafana
 
-Kafka
+## 3️⃣ Start Services (Order)
 
-Redis
+1. Config Server  
+2. Eureka Server  
+3. API Gateway  
+4. Auth Service  
+5. User Service  
+6. Job Service  
+7. Notification Service  
+8. File Storage Service  
 
-Prometheus
+---
 
-Grafana
+# 📊 Access URLs
 
-3️⃣ Start Services
+Prometheus  
+http://localhost:9090  
 
-Run in order:
+Grafana  
+http://localhost:3000  
 
-Config Server
+Swagger UI  
+http://localhost:8080/v1/{service-name}/swagger-ui/index.html  
 
-Eureka Server
+---
 
-API Gateway
+# 📈 Scalability Strategy
 
-Auth Service
+- Stateless service design
+- Horizontal scaling via containers
+- Distributed caching
+- Asynchronous communication
+- Failure isolation with circuit breaker
+- Eventual consistency model
 
-User Service
+---
 
-Job Service
+# 🧪 Testing Strategy
 
-Notification Service
+- Unit Testing (Mockito)
+- Integration Testing
+- Kafka Event Testing
+- Security Testing
+- API Validation
 
-File Storage
+---
 
-4️⃣ Swagger UI
-http://localhost:8080/v1/{service-name}/swagger-ui/index.html
-Monitoring Access
+# 🎯 Production-Level Capabilities
 
-Prometheus:
+✔ Microservices Architecture  
+✔ Reliable Messaging  
+✔ Resilience Patterns  
+✔ Distributed Caching  
+✔ Monitoring & Metrics  
+✔ CI/CD Automation  
+✔ Secure Authentication  
+✔ Containerized Deployment  
 
-http://localhost:9090
+---
 
-Grafana:
+# 🔮 Future Improvements
 
-http://localhost:3000
- Engineering Highlights
+- Kubernetes deployment
+- Distributed tracing
+- API rate limiting
+- Elasticsearch integration
+- Blue-Green deployment strategy
 
-✔ Microservices Architecture
-✔ Circuit Breaker & Retry
-✔ Event-Driven Design
-✔ Outbox Pattern Implementation
-✔ Redis Caching Strategy
-✔ Observability & Metrics
-✔ CI/CD Automation
-✔ Dockerized Deployment
-✔ Role-Based Security
-✔ Distributed System Design Principles
+---
 
-📈 Scalability Strategy
+# 👨‍💻 Author
 
-Stateless services
-
-Horizontal scaling via containers
-
-Caching for read-heavy operations
-
-Asynchronous communication via Kafka
-
-Failure isolation using Circuit Breaker
-
-Testing Strategy
-
-Unit testing (Mockito)
-
-Integration testing
-
-Kafka event validation
-
-Security testing
-
-API testing via Swagger
-
- Future Enhancements
-
-Kubernetes deployment
-
-Distributed tracing (Zipkin)
-
-API rate limiting
-
-Advanced search with Elasticsearch
-
-Blue-Green deployment strategy
-
-👨‍💻 Author
-
-Developed as a production-level backend system to demonstrate advanced microservices architecture, resilience patterns, and distributed system design principles.
+Developed to demonstrate advanced backend engineering and distributed system design principles.
