@@ -1,4 +1,4 @@
-# 🚀 Hiring Application – Production-Grade Microservices Platform
+#  Hiring Application – Production-Grade Microservices Platform
 
 A scalable, resilient, and production-ready **Hiring Platform** built using Spring Boot Microservices architecture.
 
@@ -78,7 +78,7 @@ Client
 
 ---
 
-# 🔥 Engineering Features
+#  Engineering Features
 
 ## 1️⃣ Circuit Breaker & Retry
 
